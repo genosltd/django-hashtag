@@ -1,1 +1,20 @@
+# from django.contrib.contenttypes.admin import GenericStackedInline
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib import admin
+
+from . import models
+
+
+@admin.register(models.Hashtag)
+class HashtagAdmin(admin.ModelAdmin):
+    search_fields = ('hashtag',)
+
+
+# class TaggedItemInline(GenericStackedInline):
+class TaggedItemInline(GenericTabularInline):
+    model = models.TaggedItem
+    autocomplete_fields = ('hashtag',)
+
+
+class TaggedItemModelAdmin(admin.ModelAdmin):
+    inlines = (TaggedItemInline,)
