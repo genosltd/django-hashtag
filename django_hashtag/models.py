@@ -30,33 +30,18 @@ class TaggedItem(models.Model):
         verbose_name = '#tag'
         constraints = (
             models.UniqueConstraint(
-                fields=('hashtag_id', 'content_type_id', 'object_id'),
-                name='unique_tag'
+                fields=('content_type_id', 'object_id'),
+                name='unique_item'
             ),
         )
 
-    hashtag = models.ForeignKey(Hashtag, on_delete=models.CASCADE,
-                                verbose_name='#tag')
+    hashtags = models.ManyToManyField(Hashtag, verbose_name='#tags')
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
-    def __str__(self):
-        return f"{self.hashtag.hashtag}"
 
-    # FIXME: not working correctly
-    def validate_unique(self, exclude=None):
-        tagged_items = TaggedItem.objects.filter(
-            hashtag_id=self.hashtag_id,
-            content_type_id=self.content_type_id,
-            object_id=self.object_id
-        )
-        if tagged_items.count() > 0:
-            raise ValidationError(f"Duplicate hashtag error: "
-                                  f"'{self.hashtag}' can be used only once.")
-
-        super().validate_unique(exclude=exclude)
 
 
 class TaggedItemModel(models.Model):
