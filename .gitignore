@@ -3,3 +3,6 @@
 
 # pip
 *.egg-info
+
+# django
+db.sqlite3
