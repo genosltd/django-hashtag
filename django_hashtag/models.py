@@ -5,7 +5,9 @@ from django.contrib.contenttypes.fields import (GenericForeignKey,
                                                 GenericRelation)
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import m2m_changed
-from django.db import models
+from django.dispatch import receiver
+
+from django.db import models, transaction
 
 
 class Hashtag(models.Model):
@@ -36,29 +38,29 @@ class TaggedItem(models.Model):
             ),
         )
 
-    hashtags = models.ManyToManyField(Hashtag, related_name='items',
+    hashtags = models.ManyToManyField(Hashtag, related_name='tagged_items',
                                       verbose_name='#tags')
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
-    @classmethod
-    def hashtags_changed(cls, sender, instance, action, reverse, model, pk_set,
-                         **kwargs):
-        if action.startswith('post_'):
-            if reverse:
-                instance.count = instance.items.count()
-                instance.save()
-            else:
-                hashtags = model.objects.filter(id__in=pk_set)
-                for hashtag in hashtags:
-                    hashtag.count = hashtag.items.count()
-                    hashtag.save()
+    def __str__(self):
+        return f"{self.content_object} tagged"
 
 
-m2m_changed.connect(TaggedItem.hashtags_changed,
-                    sender=TaggedItem.hashtags.through)
+@receiver(m2m_changed, sender=TaggedItem.hashtags.through)
+def hashtags_changed(sender, instance, action, reverse, model, pk_set,
+                     **kwargs):
+    if action.startswith('post_'):
+        if reverse:
+            instance.count = instance.tagged_items.count()
+            instance.save()
+        else:
+            hashtags = list(model.objects.filter(id__in=pk_set))
+            for hashtag in hashtags:
+                hashtag.count = hashtag.tagged_items.count()
+            model.objects.bulk_update(hashtags, fields=('count',))
 
 
 class TaggedItemModel(models.Model):
