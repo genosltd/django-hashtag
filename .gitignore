@@ -1,6 +1,10 @@
 # vim
 .*.swp
 
+# coverage
+.coverage
+htmlcov
+
 # pip
 *.egg-info
 
