@@ -1,6 +1,5 @@
 from django.contrib.contenttypes.admin import GenericStackedInline
 from django.contrib import admin
-from django.db.models import Count
 
 from . import models
 
@@ -21,5 +20,5 @@ class TaggedItemInline(GenericStackedInline):
     template = 'tagged-item-inline.html'
 
 
-class TaggedItemModelAdmin(admin.ModelAdmin):
+class TaggedItemBaseAdmin(admin.ModelAdmin):
     inlines = (TaggedItemInline,)

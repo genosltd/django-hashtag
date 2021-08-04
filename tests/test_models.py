@@ -72,3 +72,22 @@ class HashtagsChangedTestCase(TestCase):
         python.refresh_from_db()
 
         self.assertEqual(python.count, 2)
+
+
+class TaggedItemBaseTestCase(TestCase):
+    def test_hashtags(self):
+        testmodel_ctype = ContentType.objects.get(app_label='test_app',
+                                                  model='testmodel')
+        a_model = testmodel_ctype.model_class().objects.create(
+            test_field='test'
+        )
+        # a_hashtag = models.Hashtag.objects.create(hashtag='hashtag')
+        a_taggeditem = models.TaggedItem.objects.create(
+            content_type=testmodel_ctype,
+            object_id=a_model.id
+        )
+
+        a_model.hashtags.add(a_taggeditem)
+
+        self.assertQuerysetEqual(a_model.hashtags.all(),
+                                 map(repr, (a_taggeditem,)))

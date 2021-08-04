@@ -12,10 +12,10 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='AModel',
+            name='TestModel',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('a_field', models.CharField(max_length=100)),
+                ('test_field', models.CharField(max_length=100)),
             ],
             options={
                 'abstract': False,

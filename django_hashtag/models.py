@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 
-from django.db import models, transaction
+from django.db import models
 
 
 class Hashtag(models.Model):
@@ -63,7 +63,7 @@ def hashtags_changed(sender, instance, action, reverse, model, pk_set,
             model.objects.bulk_update(hashtags, fields=('count',))
 
 
-class TaggedItemModel(models.Model):
+class TaggedItemBase(models.Model):
     class Meta:
         abstract = True
 
