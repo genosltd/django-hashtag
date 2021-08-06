@@ -1,8 +1,9 @@
 from django.test import TestCase
-# from django.test import SimpleTestCase as TestCase
 
 from django.contrib.contenttypes.models import ContentType
 from django_hashtag import models
+
+from test_app.models import TestModel
 
 
 class HashtagTestCase(TestCase):
@@ -93,18 +94,12 @@ class HashtagsChangedTestCase(TestCase):
 
 class TaggedItemBaseTestCase(TestCase):
     def test_hashtags(self):
-        testmodel_ctype = ContentType.objects.get(app_label='test_app',
-                                                  model='testmodel')
-        a_model = testmodel_ctype.model_class().objects.create(
-            test_field='test'
-        )
-        # a_hashtag = models.Hashtag.objects.create(hashtag='hashtag')
-        a_taggeditem = models.TaggedItem.objects.create(
-            content_type=testmodel_ctype,
-            object_id=a_model.id
-        )
+        a_model = TestModel.objects.create(test_field='test')
+        self.assertQuerysetEqual(a_model.hashtags.all(), [])
 
-        a_model.hashtags.add(a_taggeditem)
+        python = models.Hashtag.objects.create(hashtag='python')
+        a_model.hashtags.add(python)
+        self.assertQuerysetEqual(a_model.hashtags.all(), map(repr, (python,)))
 
-        self.assertQuerysetEqual(a_model.hashtags.all(),
-                                 map(repr, (a_taggeditem,)))
+        a_model.hashtags.remove(python)
+        self.assertQuerysetEqual(a_model.hashtags.all(), [])

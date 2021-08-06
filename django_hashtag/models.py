@@ -67,4 +67,12 @@ class TaggedItemBase(models.Model):
     class Meta:
         abstract = True
 
-    hashtags = GenericRelation(TaggedItem)
+    taggeditem = GenericRelation(TaggedItem)
+
+    @property
+    def hashtags(self):
+        try:
+            return self.taggeditem.first().hashtags
+
+        except AttributeError:
+            return self.taggeditem.create().hashtags

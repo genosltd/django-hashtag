@@ -1,6 +1,9 @@
 # vim
 .*.swp
 
+# pandoc
+README.html
+
 # coverage
 .coverage
 htmlcov
