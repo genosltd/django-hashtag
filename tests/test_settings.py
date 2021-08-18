@@ -6,7 +6,7 @@ SECRET_KEY = 'fake-key'
 INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "test_app",
-    "django_hashtag",
+    "django_hashtag.apps.DjangoHashtagConfig",
 ]
 
 DATABASES = {

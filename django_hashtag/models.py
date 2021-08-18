@@ -11,10 +11,7 @@ from django.db import models
 
 
 class Hashtag(models.Model):
-    class Meta:
-        verbose_name = '#tag'
-
-    hashtag = models.SlugField(unique=True, verbose_name='#tag')
+    hashtag = models.SlugField(unique=True)
     count = models.PositiveIntegerField(editable=False, default=0)
 
     def save(self, *args, **kwargs):
@@ -30,7 +27,7 @@ class Hashtag(models.Model):
 
 class TaggedItem(models.Model):
     class Meta:
-        verbose_name = '#tag'
+        verbose_name = 'hashtag'
         constraints = (
             models.UniqueConstraint(
                 fields=('content_type_id', 'object_id'),
@@ -38,8 +35,8 @@ class TaggedItem(models.Model):
             ),
         )
 
-    hashtags = models.ManyToManyField(Hashtag, related_name='tagged_items',
-                                      verbose_name='#tags')
+    hashtags = models.ManyToManyField(Hashtag, related_name='taggeditems',
+                                      blank=True)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -54,16 +51,16 @@ def hashtags_changed(sender, instance, action, reverse, model, pk_set,
                      **kwargs):
     if action.startswith('post_'):
         if reverse:
-            instance.count = instance.tagged_items.count()
+            instance.count = instance.taggeditems.count()
             instance.save()
         else:
             hashtags = list(model.objects.filter(id__in=pk_set))
             for hashtag in hashtags:
-                hashtag.count = hashtag.tagged_items.count()
+                hashtag.count = hashtag.taggeditems.count()
             model.objects.bulk_update(hashtags, fields=('count',))
 
 
-class TaggedItemBase(models.Model):
+class HasHashtags(models.Model):
     class Meta:
         abstract = True
 
