@@ -20,5 +20,5 @@ class TaggedItemInline(GenericStackedInline):
     template = 'tagged-item-inline.html'
 
 
-class TaggedItemBaseAdmin(admin.ModelAdmin):
+class HasHashtagsAdmin(admin.ModelAdmin):
     inlines = (TaggedItemInline,)

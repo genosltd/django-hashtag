@@ -1,8 +1,8 @@
 from django.db import models
-from django_hashtag import models as ht_models
+from django_hashtag.models import HasHashtags
 
 
-class TestModel(ht_models.TaggedItemBase):
+class TestModel(HasHashtags):
     test_field = models.CharField(max_length=100)
 
     def __str__(self):

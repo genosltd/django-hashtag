@@ -81,12 +81,12 @@ class HashtagsChangedTestCase(TestCase):
     def test_reverse(self):
         python = self.python
 
-        python.tagged_items.add(self.tagged_guido)
+        python.taggeditems.add(self.tagged_guido)
         python.refresh_from_db()
 
         self.assertEqual(python.count, 1)
 
-        python.tagged_items.add(self.tagged_dev)
+        python.taggeditems.add(self.tagged_dev)
         python.refresh_from_db()
 
         self.assertEqual(python.count, 2)
