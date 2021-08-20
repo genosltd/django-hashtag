@@ -22,3 +22,14 @@ class TaggedItemInline(GenericStackedInline):
 
 class HasHashtagsAdmin(admin.ModelAdmin):
     inlines = (TaggedItemInline,)
+
+    def get_inlines(self, request, obj=None):
+        inlines = super().get_inlines(request, obj=obj)
+
+        missing = frozenset(HasHashtagsAdmin.inlines) - frozenset(inlines)
+        if missing:
+            inlines = list(inlines)
+            inlines.extend(missing)
+            inlines = tuple(inlines)
+
+        return inlines
