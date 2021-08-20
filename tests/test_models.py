@@ -35,22 +35,6 @@ class TaggedItemTestCase(TestCase):
 class HashtagsChangedTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
-        user_type = ContentType.objects.get(app_label='auth', model='user')
-        guido = user_type.model_class().objects.create(username='Guido')
-        dev = user_type.model_class().objects.create(username='dev')
-
-        cls.tagged_guido = models.TaggedItem.objects.create(
-            content_type=user_type,
-            object_id=guido.id
-        )
-        cls.tagged_dev = models.TaggedItem.objects.create(
-            content_type=user_type,
-            object_id=dev.id
-        )
-        cls.python = models.Hashtag.objects.create(hashtag='python')
-
-    @classmethod
-    def setUpTestData(cls):
         user_type = ContentType.objects.get(app_label='test_app', model='testmodel')
         guido = user_type.model_class().objects.create(test_field='Guido')
         dev = user_type.model_class().objects.create(test_field='dev')
@@ -92,7 +76,7 @@ class HashtagsChangedTestCase(TestCase):
         self.assertEqual(python.count, 2)
 
 
-class TaggedItemBaseTestCase(TestCase):
+class HasHashtagsTestCase(TestCase):
     def test_hashtags(self):
         a_model = TestModel.objects.create(test_field='test')
         self.assertQuerysetEqual(a_model.hashtags.all(), [])

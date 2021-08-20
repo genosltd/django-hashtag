@@ -1,9 +1,9 @@
 from django.contrib import admin
-from django_hashtag import admin as ht_admin
+from django_hashtag.admin import HasHashtagsAdmin
 
 from . import models
 
 
 @admin.register(models.TestModel)
-class TestModelAdmin(ht_admin.TaggedItemBaseAdmin):
+class TestModelAdmin(HasHashtagsAdmin):
     pass
