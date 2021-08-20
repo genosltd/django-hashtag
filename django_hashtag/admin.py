@@ -24,12 +24,10 @@ class HasHashtagsAdmin(admin.ModelAdmin):
     inlines = (TaggedItemInline,)
 
     def get_inlines(self, request, obj=None):
-        inlines = super().get_inlines(request, obj=obj)
+        inlines = list(super().get_inlines(request, obj=obj))
 
-        missing = frozenset(HasHashtagsAdmin.inlines) - frozenset(inlines)
-        if missing:
-            inlines = list(inlines)
-            inlines.extend(missing)
-            inlines = tuple(inlines)
+        for inline in reversed(HasHashtagsAdmin.inlines):
+            if inline not in inlines:
+                inlines.insert(0, inline)
 
-        return inlines
+        return tuple(inlines)
