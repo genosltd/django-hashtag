@@ -59,3 +59,24 @@ from . import models
 class AModelAdmin(HasHashtagsAdmin):
     pass
 ~~~
+
+
+### Testing
+
+For testing please use:
+
+~~~
+> pipenv run tests\runtests.py
+~~~
+
+or with coverage:
+
+~~~
+> pipenv run coverage run --source django_hashtag tests\runtests.py
+~~~
+
+and then for html coverage report (in `htmlcov`):
+
+~~~
+> pipenv run coverage html
+~~~
