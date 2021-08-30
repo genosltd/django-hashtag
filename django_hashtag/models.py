@@ -27,7 +27,6 @@ class Hashtag(models.Model):
 
 class TaggedItem(models.Model):
     class Meta:
-        verbose_name = 'hashtag'
         constraints = (
             models.UniqueConstraint(
                 fields=('content_type_id', 'object_id'),
