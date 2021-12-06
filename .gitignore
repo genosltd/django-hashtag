@@ -4,12 +4,16 @@
 # pandoc
 README.html
 
+# python
+__pycache__
+
 # coverage
 .coverage
 htmlcov
 
 # pip
 *.egg-info
+venv
 
 # build
 dist

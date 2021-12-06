@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.contrib.contenttypes.models import ContentType
 from django_hashtag import models
 
-from test_app.models import TestModel
+from .test_app.models import TestModel
 
 
 class HashtagTestCase(TestCase):

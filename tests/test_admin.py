@@ -4,8 +4,8 @@ from django.contrib import admin
 
 from django_hashtag.admin import HasHashtagsAdmin
 
-from test_app.models import TestModel
-from test_app.admin import TestModelAdmin
+from .test_app.models import TestModel
+from .test_app.admin import TestModelAdmin
 
 
 class HasHashtagsAdminCase(TestCase):

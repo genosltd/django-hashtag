@@ -1,4 +1,4 @@
 [run]
 branch = True
-source = django_hashtag
-command_line = tests/runtests.py 
+source = src/django_hashtag
+command_line = runtests.py 
