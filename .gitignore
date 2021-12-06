@@ -13,6 +13,7 @@ htmlcov
 
 # build
 dist
+build
 
 # django
 db.sqlite3
