@@ -18,6 +18,10 @@ venv
 # build
 dist
 build
+.eggs
 
 # django
 db.sqlite3
+
+# setuptools_scm
+version.py

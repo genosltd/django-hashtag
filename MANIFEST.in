@@ -1,3 +1,0 @@
-graft tests
-graft django_hashtag/templates
-global-exclude db.sqlite3
