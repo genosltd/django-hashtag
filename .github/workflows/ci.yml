@@ -28,8 +28,12 @@ jobs:
         pip install .
     - name: Run Tests
       run: |
+        pwd
         coverage run
+        ls -al
     - name: Coverage
       run: |
+        pwd
+        ls -al
         coverage report --fail-under=90
 
