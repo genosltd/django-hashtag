@@ -15,6 +15,9 @@ htmlcov
 *.egg-info
 venv
 
+# pipenv
+Pipfile.lock
+
 # build
 dist
 build
