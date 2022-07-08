@@ -1,4 +1,5 @@
 [run]
 branch = True
 source = django_hashtag
+relative_files = True
 command_line = runtests.py 
